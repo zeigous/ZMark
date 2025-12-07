@@ -4,3 +4,5 @@ simulator
 obj/*
 obj/
 src/include/wren.*
+.gitignore
+src/include/lua/*.h

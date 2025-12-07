@@ -5,12 +5,13 @@
 #include <string>
 #include <stdint.h>
 
-#include "predictor.hpp"
+#include "Predictor.hpp"
 
 class Processor {
     public:
-        Processor(std::ifstream *traceFile);
-        void reset(Predictor *predictor);
+        Processor(std::ifstream *traceFile, const char *luaFilename);
+        ~Processor();
+        void reset();
         int tick();
 
     private:
@@ -22,6 +23,6 @@ class Processor {
         uint64_t tracePC;
         bool branchResult;
 
-        Predictor internalPredictor;
+        Predictor *internalPredictor;
 
 };

@@ -3,24 +3,31 @@
 #include <string>
 #include <stdint.h>
 
-#include "predictor.hpp"
-#include "processor.hpp"
+#include "Predictor.hpp"
+#include "Processor.hpp"
 
-Processor::Processor(std::ifstream *traceFile) {
+Processor::Processor(std::ifstream *traceFile, const char *luaFilename) {
     branchTraceFile = traceFile;
+    
+    internalPredictor = new Predictor(luaFilename);
+    
 }
 
-void Processor::reset(Predictor *predictor) {
+Processor::~Processor() {
+    branchTraceFile->close();
+
+    delete internalPredictor;
+    internalPredictor = nullptr;
+}
+
+void Processor::reset() {
     branchTraceFile->clear();
     branchTraceFile->seekg(0);
-
-    if (predictor) {
-        internalPredictor = *predictor;
-    }
-
-    internalPredictor.reset();
+    internalPredictor->reset();
 }
+
 int Processor::tick() {
+    
     std::getline(*branchTraceFile, tracePCString, ' ');
     if (branchTraceFile->fail() || branchTraceFile->eof()) return -1;
 
@@ -31,6 +38,7 @@ int Processor::tick() {
     int nl = branchTraceFile->get();
     if (nl == EOF) return -1;
     if (nl == '\r') {
+        
         int next = branchTraceFile->peek();
         if (next == '\n') branchTraceFile->get();
     } else if (nl != '\n') {
@@ -40,8 +48,10 @@ int Processor::tick() {
     tracePC = std::stoull(tracePCString, nullptr, 16);
     branchResult = (branchResultChar == 't');
 
-    bool predictorResult = internalPredictor.predict(tracePC);
-    internalPredictor.update(tracePC, branchResult, predictorResult);
+    bool predictorResult = internalPredictor->predict(tracePC); // ehh
+    
+    internalPredictor->update(tracePC, branchResult, predictorResult);
+    
 
-    return branchResult ^ predictorResult;
+    return branchResult ^ predictorResult; // 0 on correct prediction
 }

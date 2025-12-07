@@ -8,7 +8,7 @@ OBJ_DIR := obj
 # Output executable
 TARGET := simulator
 
-LIBS := -Bstatic -lwren
+LIBS := -llua
 
 CXXFLAGS := -I$(INCLUDE_DIR) -std=c++23 -Wall -Wextra -O2
 
