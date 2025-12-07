@@ -39,7 +39,7 @@ The Lua File **Must** define the following functions:
 - Requires `C++23` or greater
 - Requires `Lua 5.4-5.4.8` to be installed
 
-To Install, navigate to the root directory and run: 
+To compile the simulator, navigate to the root directory and run: 
 ```make```
 
 ## Notes
