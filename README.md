@@ -1,6 +1,6 @@
 # ZMark
 
-ZMark is a branch predictor simulator that models predictor accuracies on arbitrary traces. It supports Lua-based predictors and outputs accuracy statistics at intervals of 1,000 branches
+ZMark is a branch predictor simulator that models predictor accuracies on arbitrary traces. It supports Lua-based predictors and outputs accuracy statistics at intervals of 1k branches
 
 ## Features
 
@@ -44,6 +44,6 @@ To compile the simulator, navigate to the root directory and run:
 
 ## Notes
 
-- The simulator outputs accuracy statistics every 1,000 branches to the CSV file specified with the `-o` argument
+- The simulator outputs accuracy statistics every 1k branches to the CSV file specified with the `-o` argument
 - Traces and Lua predictors can be swapped easily without recompiling
 - Designed for easy experimentation with different branch predictors
